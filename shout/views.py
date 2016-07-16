@@ -6,11 +6,11 @@ from flask import request
 def index():
     return render_template('index.html')
 
-@app.route('/resources')
+@app.route('/resources/')
 def resources():
     return render_template('resources.html')
 
-@app.route('/faq')
+@app.route('/faq/')
 def faq():
     return render_template('faq.html')
 
@@ -24,27 +24,27 @@ def hello(name=None):
 def map(name=None):
 	return render_template('map.html', name=name)
 
-@app.route('/blog')
+@app.route('/blog/')
 def blog():
-	return render_template('blog.html')	
+	return render_template('blog.html')
 
-@app.route('/blog/add')
+@app.route('/blog/add/')
 def blog_add_post():
-	return render_template('blog_add_post.html')  
+	return render_template('blog_add_post.html')
 
-	
+
 # endpoints
-@app.route('/sendform', methods=['POST'])
+@app.route('/sendform/', methods=['POST'])
 def receive_form():
-	content = request.values
-	data_id = content.get('data_id')
-	date = content.get('date')
-	category = content.get('category')
-	latitude = content.get('latitude')
-	longitude = content.get('longitude')
+    content = request.values
+    data_id = content.get('data_id')
+    date = content.get('date')
+    category = content.get('category')
+    latitude = content.get('latitude')
+    longitude = content.get('longitude')
     # todo: post to couchbase
 
-@app.route('/plotpt', methods=['POST'])
+@app.route('/plotpt/', methods=['POST'])
 def plot_point():
 	content = request.values
 	blog_id = content.get('blog_id')
@@ -54,4 +54,3 @@ def plot_point():
 	latitude = content.get('latitude')
 	longitude = content.get('longitude')
 	# todo: post to couchbase
-  
