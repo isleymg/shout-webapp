@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Blog{% endblock %}
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav">
+      
+    </div>
+
+    <div class="col-sm-9">
+      <div id="header">
+        <font face="Tahoma" size="10">Where your stories are shared</font>
+      </div>        
+      <h4><small>RECENT POSTS</small></h4>
+      <hr>
+      <h2>I Love Food</h2>
+      <h5><span class="glyphicon glyphicon-time"></span> Post by Jane Dane, Sep 27, 2015.</h5>
+      <h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
+      <p>text 1</p>
+      <br><br>
+            
+      <hr>
+      <h2>Officially Blogging</h2>
+      <h5><span class="glyphicon glyphicon-time"></span> Post by John Doe, Sep 24, 2015.</h5>
+      <h5><span class="label label-success">Lorem</span></h5><br>
+      <p>text 2</p>
+      <hr>
+  </div>
+</div>
+
+<footer class="container-fluid">
+  <input type="button" class="btn btn-primary" onclick="location.href='/blog/add';" value="Add a post" />
+</footer>
+
+{% endblock %}
+
