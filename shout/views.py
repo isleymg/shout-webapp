@@ -4,6 +4,9 @@ from flask import render_template
 from flask import request
 from shout.api_helpers import map_point, blog_post, get_bucket, get_doc, update_doc
 
+blog_counter = 1
+marker_counter = 1
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -33,10 +36,10 @@ def blog_add_post():
 # endpoints
 @app.route('/plotpt', methods=['POST'])
 def plot_point():
-    update_doc(get_bucket(), stub, request.get_json())
+    update_doc(get_bucket(), 'MAP' + blog_counter, request.get_json())
 
 
 @app.route('/sendpost', methods=['POST'])
 def receive_post():
-    update_doc(get_bucket(), stub, request.get_json())
+    update_doc(get_bucket(), 'BLOG' + marker_counter, request.get_json())
   
