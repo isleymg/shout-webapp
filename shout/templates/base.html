@@ -1,0 +1,39 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>{% block title %}{% endblock %} - [sh]out</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <meta name="description" content="Sexual Assult geo-reporting">
+  <meta name="author" content="[sh]out">
+
+  {% block head %}{% endblock %}
+
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <nav role="navigation" class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">[sh]out</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li role="presentation"><a href="/">Home</a></li>
+        <li role="presentation"><a href="/map">Map</a></li>
+        <li role="presentation"><a href="/blog">Blog</a></li>
+        <li role="presentation"><a href="/resources">Resources</a></li>
+        <li role="presentation"><a href="/faq">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="content">{% block content %}{% endblock %}</div>
+
+
+</body>
+</html>
