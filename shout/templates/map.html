@@ -77,12 +77,30 @@
 <div id="wrapper">
 <div id="map">
 <script>
-  // This example adds a search box to a map, using the Google Place Autocomplete
-  // feature. People can enter geographical searches. The search box will return a
-  // pick list containing a mix of places and predicted search terms.
-  // This example requires the Places library. Include the libraries=places
-  // parameter when you first load the API. For example:
-  // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+  var locations = [
+
+      ["A",42.44788, -76.47845,1],
+      ["A",42.44639, -76.47793,1],
+      ["A",42.45047,-76.46982,1],
+      ["A",42.45823,-76.46922,1],
+      ["A",42.45057,-76.48733,1],
+      ["A",42.44519,-76.49669,1],
+      ["A",42.43809,-76.50149,1],
+      ["A",42.43822,-76.48098,1],
+      ["A",42.43993,-76.48218,1],
+      ["A",37.38176,-122.09406,1],
+      ["A",37.38162,-122.08282,1],
+      ["A",37.38837,-122.07115,1],
+      ["A",37.41947,-122.08410,1],
+      ['Bondi Beach', -33.890542, 151.274856, 4],
+      ['Coogee Beach', -33.923036, 151.259052, 5],
+      ['Cronulla Beach', -34.028249, 151.157507, 3],
+      ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
+      ['Maroubra Beach', -33.950198, 151.259302, 1]
+  ];
+
+  // Adds a search box to a map, using the Google Place Autocomplete
+  // feature. People can enter geographical searches. 
   var map;
   function initAutocomplete() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -91,6 +109,28 @@
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
     var infoWindow = new google.maps.InfoWindow({map: map});
+
+
+
+
+    var marker,i;
+    for (i = 0; i < locations.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        map: map
+      });
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
+
+
+
+
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
@@ -114,6 +154,8 @@
       searchBox.setBounds(map.getBounds());
     });
     var markers = [];
+
+
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
     searchBox.addListener('places_changed', function() {
@@ -167,13 +209,7 @@
   function initialize() {
     var markers = []
     var infoWindow = new google.maps.InfoWindow({map: map, pixelOffset: new google.maps.Size(0, -30)});
-    // var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
-    // var myOptions = {
-    //   zoom: 4,
-    //   center: myLatlng,
-    //   mapTypeId: google.maps.MapTypeId.ROADMAP
-    // }
-    //map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
     handle = null
     $('.toggle-button').on('click', function() {
       if ($('.toggle-button').hasClass('toggle-button-selected')) {
@@ -217,6 +253,7 @@
 
     })
 
+
   }
   function placeMarker(location) {
     var marker = new google.maps.Marker({
@@ -244,5 +281,8 @@
     </div>
     Add 
 </div>
+
+
+
 
 {% endblock %}
