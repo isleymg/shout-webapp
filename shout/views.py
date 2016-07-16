@@ -1,5 +1,4 @@
 from shout import app
-from shout import forms
 from flask import render_template
 from flask import request
 
@@ -22,18 +21,18 @@ def hello(name=None):
 
 @app.route('/blog')
 def blog():
-	return render_template('blog.html')	
+	return render_template('blog.html')
 
 @app.route('/blog/add')
 def blog_add_post():
-	return render_template('blog_add_post.html')  
+	return render_template('blog_add_post.html')
 
-	
+
 # endpoints
 @app.route('/sendform', methods=['POST'])
 def receive_form():
-	content = request.values
-	data_id = content.get('data_id')
+    content = request.values
+    data_id = content.get('data_id')
     date = content.get('date')
     category = content.get('category')
     latitude = content.get('latitude')
@@ -50,4 +49,3 @@ def plot_point():
 	latitude = content.get('latitude')
 	longitude = content.get('longitude')
 	# todo: post to couchbase
-  
