@@ -6,10 +6,65 @@
 
   <title>{% block title %}{% endblock %} - [sh]out</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Suez+One" rel="stylesheet">
   <meta name="description" content="Sexual Assult geo-reporting">
   <meta name="author" content="[sh]out">
 
   {% block head %}{% endblock %}
+
+  <style type="text/css">
+    p {
+      font-family: Georgia, Times, "Times New Roman", serif;
+	    font-size: 16px;
+	    font-style: normal;
+	    font-variant: normal;
+	    font-weight: 400;
+	    line-height: 20px;
+    }
+
+    h4, a, ul li a {
+      font-family: 'Slabo 27px', serif;
+      font-size: 18px;
+    }
+
+    .main-title {
+      font-family: 'Slabo 27px', serif;
+      font-size: 35px;
+
+    }
+    #resources-container, #faq-container {
+      margin: auto;
+      width: 50%;
+    }
+    #resources-container h4, #faq-container h4{
+      text-align: center;
+    }
+
+    .site-title {
+      font-family: 'Suez One', serif;
+      color: #4CAEFF;
+    }
+    .navbar-default{
+      background-color: transparent;
+      border: none;
+    }
+    .navbar-default .navbar-brand{
+      color: black;
+    }
+    .navbar-default .navbar-nav>li>a:hover {
+      color: #4CAEFF;
+    }
+    a {
+      color: #20457F;
+      text-decoration: none;
+    }
+    a:hover{
+      color: #4CAEFF;
+      text-decoration: none;
+    }
+
+  </style>
 
   <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,7 +75,7 @@
   <nav role="navigation" class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href="/">[sh]out</a>
+        <a class="navbar-brand site-title" href="/">[sh]out</a>
       </div>
       <ul class="nav navbar-nav">
         <li role="presentation"><a href="/">Home</a></li>
