@@ -3,7 +3,7 @@ from flask import render_template
 
 @app.route('/')
 def index():
-    return 'Hello World!'
+    return render_template('index.html')
 
 @app.route('/hello/')
 @app.route('/hello/<name>')
