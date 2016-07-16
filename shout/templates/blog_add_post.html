@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Blog{% endblock %}
+{% block content %}
+<div class="row content">
+    <div class="col-sm-3 sidenav">
+      
+    </div>
+
+    <div class="col-sm-9">
+	<div id="header">
+        <font face="Tahoma" size="10">Share your post</font>
+    </div>        
+
+	<form role="form" method="get">
+  		<div class="form-group">
+    		<label for="date">Date:</label>
+    		<input type="date" class="form-control" id="date">
+  		</div>
+  		<div class="form-group">
+    		<label for="title">Title:</label>
+    		<input type="text" class="form-control" id="title">
+  		</div>  		
+		<div class="form-group">
+  			<label for="body">Body:</label>
+  			<textarea class="form-control" rows="5" id="body"></textarea>
+		</div>
+  		<div class="form-group">
+    		<label for="Location">Location:</label>
+			<input type="text" class="form-control" id="location" placeholder="Enter a location">
+	    	<script>      
+    			function initMap() {        
+        			var input = (document.getElementById('location'));       
+        			var autocomplete = new google.maps.places.Autocomplete(input);     
+        			autocomplete.addListener('place_changed', function() {          
+          				var place = autocomplete.getPlace();
+          				if (!place.geometry) {
+            				window.alert("Autocomplete's returned place contains no geometry");
+            				return;
+          				}
+          				var address = '';
+          				if (place.address_components) {
+            				address = [
+              				(place.address_components[0] && place.address_components[0].short_name || ''),
+              				(place.address_components[1] && place.address_components[1].short_name || ''),
+              				(place.address_components[2] && place.address_components[2].short_name || '')
+            				].join(' ');
+          				}
+        			});
+      			}
+    		</script>    		
+    		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCr5znIPwT07AMA1UoXpJR3HKnNRyBPUAE&libraries=places&callback=initMap" async defer></script>
+		</div>  		  		
+		<script>
+  			function printJson() {
+  				console.log(document.getElementById("date").value);
+  				console.log(document.getElementById("title").value);
+  			}  			
+  		</script>
+  		<button type="submit" class="btn btn-primary" onclick="printJson()" id="submit_btn">Submit</button>    				
+	</form>
+	</div>
+</div>
+
+<footer class="container-fluid">
+  
+</footer>	
+{% endblock %}
