@@ -1,239 +1,241 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+{% extends 'base.html' %}
+{% block title %}Map{% endblock %}
 
-    <script>
-      $(document).on('click', '.toggle-button', function() {
-        $(this).toggleClass('toggle-button-selected');
-      });
-    </script>
-    <title>Map</title>
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        height: 80%;
-      }
-      .controls {
-        margin-top: 10px;
-        border: 1px solid transparent;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        height: 75px;
-        outline: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      }
-      #pac-input {
-        background-color: #fff;
-        font-family: Roboto;
-        font-size: 44px;
-        font-weight: 300;
-        margin-left: 20px;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 500px;
-      }
-      #pac-input:focus {
-        border-color: #4d90fe;
-      }
-      .pac-container {
-        font-family: Roboto;
-      }
-      #type-selector {
-        color: #fff;
-        background-color: #4d90fe;
-        padding: 5px 11px 0px 11px;
-      }
-      #type-selector label {
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 300;
-      }
-      #target {
-        width: 345px;
-      }
-      .toggle-button { background-color: white; margin: 5px 0; border-radius: 20px; border: 2px solid #D0D0D0; height: 24px; cursor: pointer; width: 50px; position: relative; display: inline-block; user-select: none; -webkit-user-select: none; -ms-user-select: none; -moz-user-select: none; }
-      .toggle-button button { cursor: pointer; outline: 0; display:block; position: absolute; left: 0; top: 0; border-radius: 100%; width: 30px; height: 30px; background-color: white; float: left; margin: -3px 0 0 -3px; border: 2px solid #D0D0D0; transition: left 0.3s; }
-      .toggle-button-selected { background-color: #0099ff; border: 2px solid #3366ff; }
-      .toggle-button-selected button { left: 26px; top: 0; margin: 0; border: none; width: 24px; height: 24px; box-shadow: 0 0 4px rgba(0,0,0,0.1); }
-    </style>
-  </head>
+{% block head %}
+ {{ super() }}
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
+<script>
+  $(document).on('click', '.toggle-button', function() {
+    $(this).toggleClass('toggle-button-selected');
+  });
+</script>
 
-  <body>
-    <input id="pac-input" class="controls" type="text" placeholder="Find a Location">
+<style type="text/css">
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #map {
+    height: 38em;
+  }
+  .controls {
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 75px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+  #pac-input {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 44px;
+    font-weight: 300;
+    margin-left: 20px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 500px;
+  }
+  #pac-input:focus {
+    border-color: #4d90fe;
+  }
+  .pac-container {
+    font-family: Roboto;
+  }
+  #type-selector {
+    color: #fff;
+    background-color: #4d90fe;
+    padding: 5px 11px 0px 11px;
+  }
+  #type-selector label {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 300;
+  }
+  #target {
+    width: 345px;
+  }
+  .toggle-button { background-color: white; margin: 5px 0; border-radius: 20px; border: 2px solid #D0D0D0; height: 24px; cursor: pointer; width: 50px; position: relative; display: inline-block; user-select: none; -webkit-user-select: none; -ms-user-select: none; -moz-user-select: none; }
+  .toggle-button button { cursor: pointer; outline: 0; display:block; position: absolute; left: 0; top: 0; border-radius: 100%; width: 30px; height: 30px; background-color: white; float: left; margin: -3px 0 0 -3px; border: 2px solid #D0D0D0; transition: left 0.3s; }
+  .toggle-button-selected { background-color: #0099ff; border: 2px solid #3366ff; }
+  .toggle-button-selected button { left: 26px; top: 0; margin: 0; border: none; width: 24px; height: 24px; box-shadow: 0 0 4px rgba(0,0,0,0.1); }
+</style>
 
-    <div id="map">
-    <script>
-      // This example adds a search box to a map, using the Google Place Autocomplete
-      // feature. People can enter geographical searches. The search box will return a
-      // pick list containing a mix of places and predicted search terms.
-      // This example requires the Places library. Include the libraries=places
-      // parameter when you first load the API. For example:
-      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-      var map;
-      function initAutocomplete() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 37.7623, lng: -122.4354},
-          zoom: 13,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        });
-        var infoWindow = new google.maps.InfoWindow({map: map});
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-             infoWindow.setPosition(pos);
-             infoWindow.setContent('You are here.');
-             map.setCenter(pos);
-           });
-            map.setOptions({styles: [{"featureType":"landscape","elementType":"geometry","stylers":[{"saturation":"-100"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels.text","stylers":[{"color":"#545454"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"saturation":"-87"},{"lightness":"-40"},{"color":"#ffffff"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry.fill","stylers":[{"color":"#f0f0f0"},{"saturation":"-22"},{"lightness":"-16"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road.highway.controlled_access","elementType":"labels.icon","stylers":[{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"saturation":"-52"},{"hue":"#00e4ff"},{"lightness":"-16"}]}]});
+ {% endblock %}
 
+{% block content %}
+
+<input id="pac-input" class="controls" type="text" placeholder="Find a Location">
+
+<div id="map">
+<script>
+  // This example adds a search box to a map, using the Google Place Autocomplete
+  // feature. People can enter geographical searches. The search box will return a
+  // pick list containing a mix of places and predicted search terms.
+  // This example requires the Places library. Include the libraries=places
+  // parameter when you first load the API. For example:
+  // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+  var map;
+  function initAutocomplete() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 37.7623, lng: -122.4354},
+      zoom: 13,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    var infoWindow = new google.maps.InfoWindow({map: map});
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
         };
-        // Create the search box and link it to the UI element.
-        var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-        // Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function() {
-          searchBox.setBounds(map.getBounds());
-        });
-        var markers = [];
-        // Listen for the event fired when the user selects a prediction and retrieve
-        // more details for that place.
-        searchBox.addListener('places_changed', function() {
-          var places = searchBox.getPlaces();
-          if (places.length == 0) {
-            return;
-          }
-          // Clear out the old markers.
-          markers.forEach(function(marker) {
-            marker.setMap(null);
-          });
-          markers = [];
-          // For each place, get the icon, name and location.
-          var bounds = new google.maps.LatLngBounds();
-          places.forEach(function(place) {
-            var icon = {
-              url: place.icon,
-              size: new google.maps.Size(71, 71),
-              origin: new google.maps.Point(0, 0),
-              anchor: new google.maps.Point(17, 34),
-              scaledSize: new google.maps.Size(25, 25)
-            };
-            // Create a marker for each place.
-            markers.push(new google.maps.Marker({
-              map: map,
-              icon: icon,
-              title: place.name,
-              position: place.geometry.location
-            }));
-            if (place.geometry.viewport) {
-              // Only geocodes have viewport.
-              bounds.union(place.geometry.viewport);
-            } else {
-              bounds.extend(place.geometry.location);
-            }
-          });
-          map.fitBounds(bounds);
-        });
+         infoWindow.setPosition(pos);
+         infoWindow.setContent('You are here.');
+         map.setCenter(pos);
+       });
+        map.setOptions({styles: [{"featureType":"landscape","elementType":"geometry","stylers":[{"saturation":"-100"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels.text","stylers":[{"color":"#545454"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"saturation":"-87"},{"lightness":"-40"},{"color":"#ffffff"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry.fill","stylers":[{"color":"#f0f0f0"},{"saturation":"-22"},{"lightness":"-16"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road.highway.controlled_access","elementType":"labels.icon","stylers":[{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"saturation":"-52"},{"hue":"#00e4ff"},{"lightness":"-16"}]}]});
+
+    };
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener('bounds_changed', function() {
+      searchBox.setBounds(map.getBounds());
+    });
+    var markers = [];
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener('places_changed', function() {
+      var places = searchBox.getPlaces();
+      if (places.length == 0) {
+        return;
       }
-      // TODO: unable to toggle between modes, need fix
-      function toggleValue() {
-        var elem = document.getElementById("1");
-        if(elem.value=="VIEW"){
-          elem.value = "ADD";
-          initialize();
+      // Clear out the old markers.
+      markers.forEach(function(marker) {
+        marker.setMap(null);
+      });
+      markers = [];
+      // For each place, get the icon, name and location.
+      var bounds = new google.maps.LatLngBounds();
+      places.forEach(function(place) {
+        var icon = {
+          url: place.icon,
+          size: new google.maps.Size(71, 71),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(17, 34),
+          scaledSize: new google.maps.Size(25, 25)
+        };
+        // Create a marker for each place.
+        markers.push(new google.maps.Marker({
+          map: map,
+          icon: icon,
+          title: place.name,
+          position: place.geometry.location
+        }));
+        if (place.geometry.viewport) {
+          // Only geocodes have viewport.
+          bounds.union(place.geometry.viewport);
+        } else {
+          bounds.extend(place.geometry.location);
         }
-        else{
-          elem.value = "VIEW"
-        }
+      });
+      map.fitBounds(bounds);
+    });
+  }
+  // TODO: unable to toggle between modes, need fix
+  function toggleValue() {
+    var elem = document.getElementById("1");
+    if(elem.value=="VIEW"){
+      elem.value = "ADD";
+      initialize();
+    }
+    else{
+      elem.value = "VIEW"
+    }
+  }
+  function initialize() {
+    var markers = []
+    var infoWindow = new google.maps.InfoWindow({map: map, pixelOffset: new google.maps.Size(0, -30)});
+    // var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+    // var myOptions = {
+    //   zoom: 4,
+    //   center: myLatlng,
+    //   mapTypeId: google.maps.MapTypeId.ROADMAP
+    // }
+    //map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    handle = null
+    $('.toggle-button').on('click', function() {
+      if ($('.toggle-button').hasClass('toggle-button-selected')) {
+        google.maps.event.removeListener(handle);
       }
-      function initialize() {
-        var markers = []
-        var infoWindow = new google.maps.InfoWindow({map: map, pixelOffset: new google.maps.Size(0, -30)});
-        // var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
-        // var myOptions = {
-        //   zoom: 4,
-        //   center: myLatlng,
-        //   mapTypeId: google.maps.MapTypeId.ROADMAP
-        // }
-        //map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-        handle = null
-        $('.toggle-button').on('click', function() {
-          if ($('.toggle-button').hasClass('toggle-button-selected')) {
-            google.maps.event.removeListener(handle);
-          }
-          else {
+      else {
 
-            handle = google.maps.event.addListener(map, 'click', function(event) {
-              var marker = placeMarker(event.latLng);
-              var lat = event.latLng.lat();
-              var lng = event.latLng.lng();
-              markers.push(marker);
+        handle = google.maps.event.addListener(map, 'click', function(event) {
+          var marker = placeMarker(event.latLng);
+          var lat = event.latLng.lat();
+          var lng = event.latLng.lng();
+          markers.push(marker);
 
-              var pos = {
-                lat: lat,
-                lng: lng
-              };
-              console.log(pos);
-              infoWindow.setPosition(pos);
-              infoWindow.setContent('Date (opt): <input class="js-date" type="date"><br>Category (opt): <select class="js-select"><option>Stalking</option><option>Attempted Sexual Assult</option><option>Groping</option><option>Rape</option></select><br><button class="js-submit">Submit</button><span class="js-msg"></span>');
-              // infoWindow.setContent('You are here.');
-              $('.js-submit').on('click', function() {
-                var date = $('.js-date').val()
-                var type = $('.js-select').val()
-                $.ajax({
-                    type: 'POST',
-                    url: '/plotpt',
-                    data: {'date':date, 'category': type, 'latitude':lat, 'longitude':lng},
-                    success: function(data) {
-                      $('.js-submit').hide();
-                      $('.js-msg').text('Submitted ' + date + ' ' + type)
-                    },
-                    contentType: "application/json",
-                    dataType: 'json'
-                });
-
-              })
+          var pos = {
+            lat: lat,
+            lng: lng
+          };
+          console.log(pos);
+          infoWindow.setPosition(pos);
+          infoWindow.setContent('Date (opt): <input class="js-date" type="date"><br>Category (opt): <select class="js-select"><option>Stalking</option><option>Attempted Sexual Assult</option><option>Groping</option><option>Rape</option></select><br><button class="js-submit">Submit</button><span class="js-msg"></span>');
+          // infoWindow.setContent('You are here.');
+          $('.js-submit').on('click', function() {
+            var date = $('.js-date').val()
+            var type = $('.js-select').val()
+            $.ajax({
+                type: 'POST',
+                url: '/plotpt',
+                data: {'date':date, 'category': type, 'latitude':lat, 'longitude':lng},
+                success: function(data) {
+                  $('.js-submit').hide();
+                  $('.js-msg').text('Submitted ' + date + ' ' + type)
+                },
+                contentType: "application/json",
+                dataType: 'json'
             });
-            console.log('now add')
-          }
 
-        })
-
-      }
-      function placeMarker(location) {
-        var marker = new google.maps.Marker({
-            position: location,
-            map: map
+          })
         });
-        return marker;
-        //map.setCenter(location);
+        console.log('now add')
       }
-      window.onload = initialize;
-    </script>
+
+    })
+
+  }
+  function placeMarker(location) {
+    var marker = new google.maps.Marker({
+        position: location,
+        map: map
+    });
+    return marker;
+    //map.setCenter(location);
+  }
+  window.onload = initialize;
+</script>
 
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQcGboLI6Al2UGHJWWuGaboudY6LQKa2w&libraries=places&callback=initAutocomplete"
-         async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQcGboLI6Al2UGHJWWuGaboudY6LQKa2w&libraries=places&callback=initAutocomplete"
+     async defer></script>
 
-    </div>
+</div>
 
-    <!-- TODO: Prettyfy view vs add buttons -->
-    View
-    <div class="toggle-button" id="1", value="VIEW">    <button></button>
-    </div>
-    Add
-  </body>
-</html>
+<!-- TODO: Prettyfy view vs add buttons -->
+View
+<div class="toggle-button" id="1", value="VIEW">    <button></button>
+</div>
+Add
+
+{% endblock %}
