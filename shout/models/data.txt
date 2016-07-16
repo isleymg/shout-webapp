@@ -1,0 +1,10 @@
+1,June 1 2016 1:33PM,assault,42.44788,-76.47845
+2,March 3 2016 2:02PM,stalking,42.44639,-76.47793
+3,March 22 2016 9:00PM,attempted assault,42.45047,-76.46982
+4,April 3 2016 10:54PM,rape,42.45823,-76.46922
+5,May 14 2016 8:28PM,public indecency,42.45057,-76.48733
+6,January 1 2016 1:11PM,statutory rape,42.44519,-76.49669
+7,July 1 2016 2:40AM,assault,42.43809,-76.50149
+8,September 30 2015 11:11AM,stalking,42.43822,-76.48098
+9,March 3 2015 12:33PM,attempted assault,42.43993,-76.48218
+
