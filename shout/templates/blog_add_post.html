@@ -1,15 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Blog{% endblock %}
-{% block content %}
-<div class="row content">
-    <div class="col-sm-3 sidenav">
-      
-    </div>
 
-    <div class="col-sm-9">
-	<div id="header">
-        <font face="Tahoma" size="10">Share your post</font>
-    </div>        
+{% block content %}
+<div id="form-container">
+	<div id="form-header">
+    <h4 class="main-title">Share your post</h4>
+  </div>
 
 	<form role="form" method="get">
   		<div class="form-group">
@@ -19,7 +15,7 @@
   		<div class="form-group">
     		<label for="title">Title:</label>
     		<input type="text" class="form-control" id="title">
-  		</div>  		
+  		</div>
 		<div class="form-group">
   			<label for="body">Body:</label>
   			<textarea class="form-control" rows="5" id="body"></textarea>
@@ -27,11 +23,11 @@
   		<div class="form-group">
     		<label for="Location">Location:</label>
 			<input type="text" class="form-control" id="location" placeholder="Enter a location">
-	    	<script>      
-    			function initMap() {        
-        			var input = (document.getElementById('location'));       
-        			var autocomplete = new google.maps.places.Autocomplete(input);     
-        			autocomplete.addListener('place_changed', function() {          
+	    	<script>
+    			function initMap() {
+        			var input = (document.getElementById('location'));
+        			var autocomplete = new google.maps.places.Autocomplete(input);
+        			autocomplete.addListener('place_changed', function() {
           				var place = autocomplete.getPlace();
           				if (!place.geometry) {
             				window.alert("Autocomplete's returned place contains no geometry");
@@ -47,21 +43,18 @@
           				}
         			});
       			}
-    		</script>    		
+    		</script>
     		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCr5znIPwT07AMA1UoXpJR3HKnNRyBPUAE&libraries=places&callback=initMap" async defer></script>
-		</div>  		  		
+		</div>
 		<script>
   			function printJson() {
   				console.log(document.getElementById("date").value);
   				console.log(document.getElementById("title").value);
-  			}  			
+  			}
   		</script>
-  		<button type="submit" class="btn btn-primary" onclick="printJson()" id="submit_btn">Submit</button>    				
+  		<button type="submit" class="btn btn-primary" onclick="printJson()" id="submit_btn">Submit</button>
 	</form>
 	</div>
 </div>
 
-<footer class="container-fluid">
-  
-</footer>	
 {% endblock %}
