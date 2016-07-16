@@ -1,6 +1,7 @@
 from shout import app
 from flask import render_template
 from flask import request
+import json
 from shout.api_helpers import map_point, blog_post, get_bucket, get_doc, update_doc
 
 
@@ -39,20 +40,29 @@ def blog_add_post():
 @app.route('/plotpt', methods=['POST'])
 def plot_point():
     doc = get_doc(get_bucket(), 'metadata')
-    if doc is None:
-        update_doc(get_bucket(), 'metadata', {'post_counter':0, 'marker_counter':0})
-        doc = get_doc(get_bucket(), 'metadata')
+
+    # if doc is None:
+    #     update_doc(get_bucket(), 'metadata', {'post_counter':0, 'marker_counter':0})
+    #     doc = get_doc(get_bucket(), 'metadata')
     update_doc(get_bucket(), 'MAP' + str(doc['marker_counter']), request.get_json())
+
+    doc['marker_counter'] += 1
+    update_doc(get_bucket(), 'metadata', doc)
+
+    return json.dumps({})
     
 
 
 @app.route('/sendpost', methods=['POST'])
 def receive_post():
     doc = get_doc(get_bucket(), 'metadata')
-    if doc is None:
-        update_doc(get_bucket(), 'metadata', {'post_counter':0, 'marker_counter':0})
-        doc = get_doc(get_bucket(), 'metadata')
+    # if doc is None:
+    #     update_doc(get_bucket(), 'metadata', {'post_counter':0, 'marker_counter':0})
+    #     doc = get_doc(get_bucket(), 'metadata')
     update_doc(get_bucket(), 'BLOG' + str(doc['post_counter']), request.get_json())
+
+    doc['post_counter'] += 1
+    update_doc(get_bucket(), 'metadata', doc)
     
   
     return render_template('blog_add_post.html')
