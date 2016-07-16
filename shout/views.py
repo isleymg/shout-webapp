@@ -1,5 +1,4 @@
 from shout import app
-from shout import forms
 from flask import render_template
 from flask import request
 
@@ -39,10 +38,10 @@ def blog_add_post():
 def receive_form():
 	content = request.values
 	data_id = content.get('data_id')
-    date = content.get('date')
-    category = content.get('category')
-    latitude = content.get('latitude')
-    longitude = content.get('longitude')
+	date = content.get('date')
+	category = content.get('category')
+	latitude = content.get('latitude')
+	longitude = content.get('longitude')
     # todo: post to couchbase
 
 @app.route('/plotpt', methods=['POST'])
@@ -56,4 +55,3 @@ def plot_point():
 	longitude = content.get('longitude')
 	# todo: post to couchbase
   
->>>>>>> 2d3e05148940d7a18cbd897e40c2234b5700a4e1

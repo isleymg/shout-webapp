@@ -1,17 +1,33 @@
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script>
+      $(document).on('click', '.toggle-button', function() {
+        $(this).toggleClass('toggle-button-selected'); 
+      });
+
+      // function toggle_visibility(id) {
+      // var e = document.getElementById(id);
+      // if (e.style.display == 'block' || e.style.display=='') e.style.display = 'none';
+      // else e.style.display = 'block';
+      // }
+
+    </script>    
     <title>Map</title>
     <style>
+
       html, body {
         height: 100%;
         margin: 0;
         padding: 0;
       }
       #map {
-        height: 50%;
+        height: 80%;
       }
       .controls {
         margin-top: 10px;
@@ -57,11 +73,18 @@
       #target {
         width: 345px;
       }
+      .toggle-button { background-color: white; margin: 5px 0; border-radius: 20px; border: 2px solid #D0D0D0; height: 24px; cursor: pointer; width: 50px; position: relative; display: inline-block; user-select: none; -webkit-user-select: none; -ms-user-select: none; -moz-user-select: none; }
+      .toggle-button button { cursor: pointer; outline: 0; display:block; position: absolute; left: 0; top: 0; border-radius: 100%; width: 30px; height: 30px; background-color: white; float: left; margin: -3px 0 0 -3px; border: 2px solid #D0D0D0; transition: left 0.3s; }
+      .toggle-button-selected { background-color: #0099ff; border: 2px solid #3366ff; }
+      .toggle-button-selected button { left: 26px; top: 0; margin: 0; border: none; width: 24px; height: 24px; box-shadow: 0 0 4px rgba(0,0,0,0.1); }
     </style>
   </head>
+
+
   <body>
-    <input id="pac-input" class="controls" type="text" placeholder="Find a City">
-    <div id="map"></div>
+    <input id="pac-input" class="controls" type="text" placeholder="Find a Location">
+
+    <div id="map">
     <script>
       // This example adds a search box to a map, using the Google Place Autocomplete
       // feature. People can enter geographical searches. The search box will return a
@@ -70,10 +93,10 @@
       // This example requires the Places library. Include the libraries=places
       // parameter when you first load the API. For example:
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
+      var map;
       function initAutocomplete() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -33.8688, lng: 151.2195},
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 37.7623, lng: -122.4354},
           zoom: 13,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
@@ -89,7 +112,7 @@
             };
 
              infoWindow.setPosition(pos);
-             infoWindow.setContent('Location found.');
+             infoWindow.setContent('You are here');
              map.setCenter(pos);
            });
         };
@@ -150,8 +173,69 @@
         });
       }
 
+      // TODO: unable to toggle between modes, need fix
+      function toggleValue() {
+        var elem = document.getElementById("1");
+        if(elem.value=="VIEW"){
+          elem.value = "ADD";
+          initialize(); 
+        }
+        else{
+          elem.value = "VIEW"
+        }
+      }
+
+      function initialize() {
+        // var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+        // var myOptions = {
+        //   zoom: 4,
+        //   center: myLatlng,
+        //   mapTypeId: google.maps.MapTypeId.ROADMAP
+        // }
+        //map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+
+        google.maps.event.addListener(map, 'click', function(event) {
+          placeMarker(event.latLng);
+          console.log("addListener placemarker function")
+          
+        });
+      }
+
+      function placeMarker(location) {
+        var marker = new google.maps.Marker({
+            position: location, 
+            map: map,
+            clickable: true
+        });
+
+        marker.info = new google.maps.InfoWindow({
+          content: '<b>Speed:</b> '
+        });
+
+        google.maps.event.addListener(marker, 'click', function(){
+          marker.info.open(map, marker);
+        });
+
+        //map.setCenter(location);
+      }
+
+      //window.onload = initialize;
+
     </script>
+
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQcGboLI6Al2UGHJWWuGaboudY6LQKa2w&libraries=places&callback=initAutocomplete"
          async defer></script>
+
+    </div>
+
+    <!-- TODO: Prettyfy view vs add buttons -->
+    View
+    <div class="toggle-button" id="1", value="VIEW" onclick="initialize();">    <button></button>
+    </div>
+    Add 
+
+
   </body>
 </html>
