@@ -17,3 +17,26 @@ def faq():
 @app.route('/hello/<name>')
 def hello(name=None):
     return render_template('hello.html', name=name)
+
+
+# endpoints
+@app.route('/sendform', methods=['POST'])
+def receive_form():
+	content = request.values
+	data_id = content.get('data_id')
+    date = content.get('date')
+    category = content.get('category')
+    latitude = content.get('latitude')
+    longitude = content.get('longitude')
+    # todo: post to couchbase
+
+@app.route('/plotpt', methods=['POST'])
+def plot_point():
+	content = request.values
+	blog_id = content.get('blog_id')
+	date = content.get('date')
+	title = content.get('title')
+	body = content.get('body')
+	latitude = content.get('latitude')
+	longitude = content.get('longitude')
+	# todo: post to couchbase
