@@ -60,10 +60,13 @@
   #target {
     width: 345px;
   }
-  .toggle-button { background-color: white; margin: 5px 0; border-radius: 20px; border: 2px solid #D0D0D0; height: 24px; cursor: pointer; width: 50px; position: relative; display: inline-block; user-select: none; -webkit-user-select: none; -ms-user-select: none; -moz-user-select: none; }
-  .toggle-button button { cursor: pointer; outline: 0; display:block; position: absolute; left: 0; top: 0; border-radius: 100%; width: 30px; height: 30px; background-color: white; float: left; margin: -3px 0 0 -3px; border: 2px solid #D0D0D0; transition: left 0.3s; }
+  .toggle-button { background-color: white; margin: 5px 0; border-radius: 20px; border: 2px solid #D0D0D0; height: 43px; cursor: pointer; width: 60px; position: relative; display: inline-block; user-select: none; -webkit-user-select: none; -ms-user-select: none; -moz-user-select: none; }
+  .toggle-button button { cursor: pointer; outline: 0; display:block; position: absolute; left: 0; top: 0; border-radius: 100%; width: 40px; height: 40px; background-color: white; float: left; margin: 0px 0 0 -7px; border: 2px solid #D0D0D0; transition: left 0.3s; }
   .toggle-button-selected { background-color: #0099ff; border: 2px solid #3366ff; }
-  .toggle-button-selected button { left: 26px; top: 0; margin: 0; border: none; width: 24px; height: 24px; box-shadow: 0 0 4px rgba(0,0,0,0.1); }
+  .toggle-button-selected button { left: 26px; top: 0; margin: 0; border: none; width: 40px; height: 40px; box-shadow: 0 0 4px rgba(0,0,0,0.1); }
+
+    #wrapper { position: relative; }
+    #over_map { position: absolute; background-color: transparent; top: 80px; left: 85%; z-index: 99; background: none; }
 </style>
 
  {% endblock %}
@@ -71,7 +74,7 @@
 {% block content %}
 
 <input id="pac-input" class="controls" type="text" placeholder="Find a Location">
-
+<div id="wrapper">
 <div id="map">
 <script>
   // This example adds a search box to a map, using the Google Place Autocomplete
@@ -232,10 +235,14 @@
 
 </div>
 
-<!-- TODO: Prettyfy view vs add buttons -->
-View
-<div class="toggle-button" id="1", value="VIEW">    <button></button>
 </div>
-Add
+
+<div id="over_map">
+    <!-- TODO: Prettyfy view vs add buttons -->
+    View
+    <div class="toggle-button" id="1", value="VIEW";">    <button></button>
+    </div>
+    Add 
+</div>
 
 {% endblock %}
