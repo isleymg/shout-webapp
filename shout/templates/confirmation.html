@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Confirmation{% endblock %}
+
+{% block head %}
+ {{ super() }}
+<style type="text/css">
+
+</style>
+
+ {% endblock %}
+
+{% block content %}
+
+<div>
+  <div id="confirmation-container">
+    <h4 class="main-title">Your incident has been plotted.</h4>
+    <p>If you would like to talk to someone, the National Sexual Assault Hotline at <b>+1 (800) 656 - HOPE(4673)</b> is there to help you.</p>
+    <p>Your state of {{state}} also has the following resources:</p>
+    {% for res in resources %}
+    <p><a href={{res.link}} target="_blank">{{res.name}}</a><br />
+    {{res.city}}, {{res.state}}<br/>
+    {{res.phone}}</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
