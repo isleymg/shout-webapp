@@ -1,14 +1,17 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+oursql://db_user@localhost/sample_db'
-
-# this isn't at the top because LOL circular imports
-from models import db
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+oursql://root@localhost/sample_db'
+from shout.models import db
 db.init_app(app)
 
-# circular imports...again
-import shout.views
+@app.route('/')
+def index():
+    return 'Hello World!'
+
+@app.route('/hello/')
+@app.route('/hello/<name>')
+def hello(name=None):
+    return render_template('hello.html', name=name)

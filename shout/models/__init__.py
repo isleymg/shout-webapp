@@ -1,11 +1,11 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import event, ForeignKey
+from shout.helpers import ping_connection
+from sqlalchemy import event
 from sqlalchemy.pool import Pool
+from shout.helpers import BlazeAlchemy
 from shout import app
 
-db = SQLAlchemy(app)
-event.listens_for(Pool, 'checkout')
+db = BlazeAlchemy(app)
+event.listens_for(Pool, 'checkout')(ping_connection)
 
 class MapPoint(db.Model):
 	data_id = db.Column(db.Integer, primary_key=True)
