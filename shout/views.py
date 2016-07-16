@@ -1,7 +1,8 @@
 from shout import app
-from shout import forms
+# from shout import forms
 from flask import render_template
 from flask import request
+from shout.api_helpers import map_point, blog_post, get_bucket, get_doc, update_doc
 
 @app.route('/')
 def index():
@@ -22,32 +23,20 @@ def hello(name=None):
 
 @app.route('/blog')
 def blog():
-	return render_template('blog.html')	
+    return render_template('blog.html') 
 
 @app.route('/blog/add')
 def blog_add_post():
-	return render_template('blog_add_post.html')  
+    return render_template('blog_add_post.html')  
 
-	
+
 # endpoints
-@app.route('/sendform', methods=['POST'])
-def receive_form():
-	content = request.values
-	data_id = content.get('data_id')
-    date = content.get('date')
-    category = content.get('category')
-    latitude = content.get('latitude')
-    longitude = content.get('longitude')
-    # todo: post to couchbase
-
 @app.route('/plotpt', methods=['POST'])
 def plot_point():
-	content = request.values
-	blog_id = content.get('blog_id')
-	date = content.get('date')
-	title = content.get('title')
-	body = content.get('body')
-	latitude = content.get('latitude')
-	longitude = content.get('longitude')
-	# todo: post to couchbase
+    update_doc(get_bucket(), stub, request.get_json())
+
+
+@app.route('/sendpost', methods=['POST'])
+def receive_post():
+    update_doc(get_bucket(), stub, request.get_json())
   
