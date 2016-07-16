@@ -19,6 +19,11 @@ def faq():
 def hello(name=None):
     return render_template('hello.html', name=name)
 
+
+@app.route('/map/')
+def map(name=None):
+	return render_template('map.html', name=name)
+
 @app.route('/blog')
 def blog():
 	return render_template('blog.html')
