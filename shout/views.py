@@ -1,6 +1,8 @@
 from shout import app
 from flask import render_template
 from flask import request
+from shout.api_helpers import map_point, blog_post, get_bucket, get_doc, update_doc
+
 
 @app.route('/')
 def index():
@@ -22,35 +24,36 @@ def hello(name=None):
 
 @app.route('/map/')
 def map(name=None):
-	return render_template('map.html', name=name)
+    return render_template('map.html', name=name)
 
 @app.route('/blog/')
 def blog():
-	return render_template('blog.html')
+    return render_template('blog.html') 
 
 @app.route('/blog/add/')
 def blog_add_post():
-	return render_template('blog_add_post.html')
+    return render_template('blog_add_post.html')  
 
 
 # endpoints
-@app.route('/sendform/', methods=['POST'])
-def receive_form():
-    content = request.values
-    data_id = content.get('data_id')
-    date = content.get('date')
-    category = content.get('category')
-    latitude = content.get('latitude')
-    longitude = content.get('longitude')
-    # todo: post to couchbase
-
-@app.route('/plotpt/', methods=['POST'])
+@app.route('/plotpt', methods=['POST'])
 def plot_point():
-	content = request.values
-	blog_id = content.get('blog_id')
-	date = content.get('date')
-	title = content.get('title')
-	body = content.get('body')
-	latitude = content.get('latitude')
-	longitude = content.get('longitude')
-	# todo: post to couchbase
+    doc = get_doc(get_bucket(), 'metadata')
+    if doc is None:
+        update_doc(get_bucket(), 'metadata', {'post_counter':0, 'marker_counter':0})
+        doc = get_doc(get_bucket(), 'metadata')
+    update_doc(get_bucket(), 'MAP' + str(doc['marker_counter']), request.get_json())
+    
+
+
+@app.route('/sendpost', methods=['POST'])
+def receive_post():
+    doc = get_doc(get_bucket(), 'metadata')
+    if doc is None:
+        update_doc(get_bucket(), 'metadata', {'post_counter':0, 'marker_counter':0})
+        doc = get_doc(get_bucket(), 'metadata')
+    update_doc(get_bucket(), 'BLOG' + str(doc['post_counter']), request.get_json())
+    
+  
+    return render_template('blog_add_post.html')
+

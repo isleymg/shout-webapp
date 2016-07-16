@@ -23,17 +23,15 @@ def update_doc(bucket, key, doc):
 
 def map_point(data_id, date, category, latitude, longitude):
     return {
-        data_id: data_id,
         date: date,
         category: category,
         latitude: latitude,
-        longitude, longitude
+        longitude: longitude
     }
 
 
 def blog_post(blog_id, date, title, body, latitude, longitude, location):
     return {
-        blog_id: blog_id,
         date: date,
         title: title,
         body: body,
