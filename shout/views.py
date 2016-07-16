@@ -24,6 +24,25 @@ def hello(name=None):
 def map(name=None):
 	return render_template('map.html', name=name)
 
+@app.route('/confirmation/')
+def confirmation():
+    all_resources = {'NY': [
+        {'name':'New York State Coalition Against Sexual Assault',
+        'link':'http://www.nyscasa.org/',
+        'city': 'Albany',
+        'state': 'NY',
+        'phone': '518.482.4222'
+        },
+        {'name':'New York City Alliance Against Sexual Assault',
+        'link':'http://www.svfreenyc.org/',
+        'city': 'New York',
+        'state': 'NY',
+        'phone': '212.229.0345'
+        }
+    ]}
+    state = 'NY'
+    return render_template('confirmation.html', state=state, resources=all_resources['NY'])
+
 @app.route('/blog/')
 def blog():
 	return render_template('blog.html')
