@@ -1,4 +1,4 @@
-# shout-webapp
+# shout-webapp [from Linkedin Intern Hackday 2016]
 
 # What is [sh]out?
 
