@@ -1,7 +1,7 @@
-# shout-webapp [from Linkedin Intern Hackday 2016]
+# shout-webapp 
 
 # What is [sh]out?
-
+[first developed during Linkedin Intern Hackday 2016]
 [sh]out is an online platform that empowers victims of sexual assault to anonymously geo-report instances of sexual assault. By visualizing a crowd-sourced map of sexual assault occurrences, people can make more informed decisions on the relative safety different locations. 
 
 [sh]out fosters a supportive community of resources and allies through the sharing of experiences and advice through the blog, and provides personalized resources to sexual assault victims based on location.
